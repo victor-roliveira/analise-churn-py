@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 import pandas as pd
 import pickle
@@ -13,8 +11,6 @@ with open('scaler.pkl', 'rb') as f:
 
 with open('colunas_modelo.pkl', 'rb') as f:
     model_columns = pickle.load(f)
-
-# --- FUNÇÃO PARA FAZER A PREVISÃO ---
 def predict_churn(data):
     # Criar um DataFrame com os dados de entrada
     df_input = pd.DataFrame([data])
@@ -31,11 +27,9 @@ def predict_churn(data):
     
     return prediction_proba[0][1] # Retorna a probabilidade de Churn (classe 1)
 
-# --- INTERFACE DO STREAMLIT ---
 st.title('Previsão de Churn de Clientes 🤖')
 st.write('Insira os dados do cliente para prever a probabilidade de cancelamento.')
 
-# --- INPUTS DO USUÁRIO NA BARRA LATERAL ---
 st.sidebar.header('Dados do Cliente')
 
 tenure = st.sidebar.slider('Tempo como Cliente (meses)', 0, 72, 12)
@@ -45,9 +39,6 @@ monthly_charges = st.sidebar.number_input('Cobrança Mensal ($)', min_value=0.0,
 total_charges = st.sidebar.number_input('Cobrança Total ($)', min_value=0.0, max_value=10000.0, value=500.0)
 num_chamadas = st.sidebar.slider('Número de Chamadas ao Suporte', 0, 10, 1)
 
-# --- Coletar outros dados para o modelo (simplificado) ---
-# Em um app real, você teria inputs para todas as features importantes.
-# Aqui, vamos usar valores padrão para as que não pedimos.
 dados_cliente = {
     'gender': 'Female', 'Partner': 'Yes', 'Dependents': 'No', 'PhoneService': 'No',
     'MultipleLines': 'No phone service', 'OnlineSecurity': 'No', 'OnlineBackup': 'Yes',
@@ -58,8 +49,6 @@ dados_cliente = {
     'NumeroDeChamadas': num_chamadas
 }
 
-
-# --- BOTÃO E RESULTADO DA PREVISÃO ---
 if st.button('**Prever Risco de Churn**'):
     probabilidade_churn = predict_churn(dados_cliente)
     
